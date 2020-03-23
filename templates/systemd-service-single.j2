@@ -13,7 +13,7 @@ ExecStart=/usr/bin/podman run --name {{ container_name }} \
   --conmon-pidfile  %t/%n-pid --cidfile %t/%n-cid \
   {{ container_image }}
 
-ExecStop=/usr/bin/sh -c "/usr/bin/podman stop -t "{{ container_stop_timeout }}" `cat %t/%n-cid`"
+ExecStop=/usr/bin/sh -c "/usr/bin/podman stop --timeout {{ container_stop_timeout }} --cidfile `cat %t/%n-cid`"
 ExecStop=/usr/bin/sh -c "/usr/bin/podman rm -f `cat %t/%n-cid`"
 Restart={{ container_restart }}
 RestartSec={{ systemd_RestartSec }}
